@@ -10,9 +10,13 @@ public:
 	void saveToBinaryFile(const std::string& filename);
 	void loadFromBinaryFile(const std::string& filename);
 	void displayAllCars();
-	void markCarAsTheft(const std::string& numberCar);
-	void displayTheftCars();
 	void removeCarByNumber(const std::string& number);
+	
+	//Список автомобилей, числящихся в угоне
+	void displayTheftCars();
+
+	//Установка факта угона с заданным номером
+	void markCarAsTheft(const std::string& numberCar);
 
 private:
 	std::string m_fileName;

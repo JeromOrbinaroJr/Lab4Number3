@@ -29,8 +29,18 @@ void Car::setTheftInfo(bool theftInfo) { m_theftInfo = theftInfo; }
 //Methods
 bool Car::isTheft() const { return m_theftInfo; }
 
-//Operetors Overloading
-//std::ostream& operator<<(std::ostream& os, const Car& car) {
-//	os.write(reinterpret_cast<const char*>(&car), sizeof(car));
-//	return os;
-//}
+// Serialization and Deserialization
+std::string Car::serialize() const {
+    std::ostringstream oss;
+    oss << m_key << " " << m_surnameOwner << " " << m_nameOwner << " " << m_numberCar << " " << m_brandCar << " " << m_theftInfo;
+    return oss.str();
+}
+
+Car Car::deserialize(const std::string& data) {
+    std::istringstream iss(data);
+    int key;
+    std::string surnameOwner, nameOwner, numberCar, brandCar;
+    bool theftInfo;
+    iss >> key >> surnameOwner >> nameOwner >> numberCar >> brandCar >> theftInfo;
+    return Car(key, surnameOwner, nameOwner, numberCar, brandCar, theftInfo);
+}

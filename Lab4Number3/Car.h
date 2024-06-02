@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <sstream>
 
 class Car {
 public:
@@ -31,14 +32,30 @@ public:
 	//Methods
 	bool isTheft() const;
 
-	//Operators Overloading
-	//friend std::ostream operator<<(std::ostream os, const Car& car);
+	// Serialization and Deserialization
+	std::string serialize() const;
+	static Car deserialize(const std::string& data);
 
 private:
 	int m_key;
-	std::string m_surnameOwner;
-	std::string m_nameOwner;
 	std::string m_numberCar;
 	std::string m_brandCar;
+	std::string m_surnameOwner;
+	std::string m_nameOwner;
 	bool m_theftInfo;
 };
+
+//struct Car {
+//	int key;
+//	std::string surnameOwner;
+//	std::string& nameOwner;
+//	std::string& numberCar;
+//	std::string& brandCar;
+//	bool theftInfo;
+//
+//	Car(int m_key, const std::string& m_surnameOwner, const std::string& m_nameOwner, const std::string& m_numberCar,
+//		const std::string& m_brandCar, bool m_theftInfo)
+//		: key(m_key), surnameOwner(m_surnameOwner), nameOwner(m_nameOwner), numberCar(m_numberCar), brandCar(m_brandCar), theftInfo(m_theftInfo) {}
+//
+//	Car() : key(0), theftInfo(false) {}
+//};
