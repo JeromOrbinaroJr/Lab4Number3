@@ -1,6 +1,5 @@
 #include "CarSystem.h"
 
-
 int main() {
     CarSystem carSystem;
 

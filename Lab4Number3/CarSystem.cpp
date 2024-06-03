@@ -1,12 +1,13 @@
 #include "CarSystem.h"
 
 bool isFileEmpty(const std::string& filename) {
-    std::ifstream file(filename);
+    std::ifstream file(filename, std::ios::binary); //на счЄт указани€ дл€ txt и bin файлов?
     return file.peek() == std::ifstream::traits_type::eof(); // проверка, если peek возвращает EOF, то файл пуст.
 }
 
 void CarSystem::loadFromTextFile(const std::string& filename) {
     std::ifstream inFile(filename);
+
     if (!inFile.is_open()) { throw std::runtime_error("The file cannot be opened, or does not exist."); }
     if (isFileEmpty(filename)) { throw std::runtime_error("File is empty."); }
 
@@ -17,26 +18,28 @@ void CarSystem::loadFromTextFile(const std::string& filename) {
         Car car(key, numberCar, surnameOwner, nameOwner, brandCar, theftInfo);
         m_cars.push_back(car);
     }
-
     inFile.close();
 }
 
 void CarSystem::saveToBinaryFile(const std::string& filename) {
     std::ofstream outFile(filename, std::ios::binary);
+
     if (!outFile.is_open()) { throw std::runtime_error("The file cannot be opened, or does not exist."); }
 
     for (const Car& car : m_cars) {
         std::string serializedCar = car.serialize();
         size_t size = serializedCar.size();
         outFile.write(reinterpret_cast<const char*>(&size), sizeof(size)); // записываетс€ размер данных в байтах
-        outFile.write(serializedCar.c_str(), size); // записываютс€ сами данные 
+        outFile.write(serializedCar.c_str(), size); // записываютс€ сами данные, конвертиру€ string в array chaer 
     }
     outFile.close();
 }
 
 void CarSystem::loadFromBinaryFile(const std::string& filename) {
     std::ifstream inFile(filename, std::ios::binary);
+
     if (!inFile.is_open()) { throw std::runtime_error("The file cannot be opened, or does not exist."); }
+    if (isFileEmpty(filename)) { throw std::runtime_error("File is empty."); }
 
     while (inFile) {
         size_t size;
@@ -49,7 +52,7 @@ void CarSystem::loadFromBinaryFile(const std::string& filename) {
         bool found = false;
         for (Car& existingCar : m_cars) {
             if (existingCar.getKey() == car.getKey()) {
-                existingCar = car; // ќбновл€ем информацию о машине
+                existingCar = car;
                 found = true;
                 break;
             }
