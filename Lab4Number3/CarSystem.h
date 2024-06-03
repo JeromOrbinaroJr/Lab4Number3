@@ -11,7 +11,7 @@ public:
 	void saveToBinaryFile(const std::string& filename);
 	void loadFromBinaryFile(const std::string& filename);
 	void displayAllCars();
-	void removeCarByNumber(const std::string& number);
+	void removeCarByNumberCar(const std::string& number);
 	
 	//Список автомобилей, числящихся в угоне
 	void displayTheftCars();

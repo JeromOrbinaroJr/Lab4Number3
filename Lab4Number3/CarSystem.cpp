@@ -22,7 +22,7 @@ void CarSystem::loadFromTextFile(const std::string& filename) {
 }
 
 void CarSystem::saveToBinaryFile(const std::string& filename) {
-    std::ofstream outFile(filename, std::ios::binary); // бинарный режим
+    std::ofstream outFile(filename, std::ios::binary);
     if (!outFile.is_open()) { throw std::runtime_error("The file cannot be opened, or does not exist."); }
 
     for (const Car& car : m_cars) {
@@ -40,7 +40,7 @@ void CarSystem::loadFromBinaryFile(const std::string& filename) {
 
     while (inFile) {
         size_t size;
-        inFile.read(reinterpret_cast<char*>(&size), sizeof(size)); // считывает размер данных в файле
+        inFile.read(reinterpret_cast<char*>(&size), sizeof(size)); // считывается размер данных в файле
         if (inFile.eof()) break; // проверка на достижение конца файла
         std::string serializedCar(size, ' ');
         inFile.read(&serializedCar[0], size);
@@ -55,7 +55,7 @@ void CarSystem::loadFromBinaryFile(const std::string& filename) {
             }
         }
         if (!found) {
-            m_cars.push_back(car); // Если машина не найдена, добавляем её в вектор
+            m_cars.push_back(car);
         }
     }
     inFile.close();
@@ -91,8 +91,8 @@ void CarSystem::displayTheftCars() {
     }
 }
 
-void CarSystem::removeCarByNumber(const std::string& number) {
-    auto it = std::remove_if(m_cars.begin(), m_cars.end(), [&number](const Car& car) { return car.getNumberCar() == number; }); // Алгоритм std::remove_if принимает диапазон элементов (в данном случае, от m_cars.begin() до m_cars.end()) и предикатную функцию (здесь лямбда-функцию), которая определяет условие для удаления элементов. Лямбда-функция проверяет номер каждой машины и возвращает true, если он равен указанному номеру number.
+void CarSystem::removeCarByNumberCar(const std::string& number) {
+    auto it = std::remove_if(m_cars.begin(), m_cars.end(), [&number](const Car& car) { return car.getNumberCar() == number; });
     if (it != m_cars.end()) {
         m_cars.erase(it, m_cars.end());
     }
