@@ -14,7 +14,7 @@ public:
 		const bool theftInfo);
 
 	//Getters
-	const int& getKey() const;
+	const int getKey() const;
 	const std::string& getSurnameOwner() const;
 	const std::string& getNameOwner() const;
 	const std::string& getNumberCar() const;
@@ -22,7 +22,7 @@ public:
 	const bool getTheftInfo() const;
 
 	//Setters
-	void setKey(const int& numberCar);
+	void setKey(const int numberCar);
 	void setSurnameOwner(const std::string& surnameOwner);
 	void setNameOwner(const std::string& nameOwner);
 	void setNumberCar(const std::string& numberCar);
@@ -33,8 +33,11 @@ public:
 	bool isTheft() const;
 
 	// Serialization and Deserialization
-	std::string serialize() const;
-	static Car deserialize(const std::string& data);
+	std::string serialize() const; // преобразует объект Car в строку. Он использует std::ostringstream,
+	//чтобы собрать значения полей объекта в одну строку, разделяя их пробелами.
+	static Car deserialize(const std::string& data); //восстанавливает объект Car из строки,
+	//созданной методом serialize. Он использует std::istringstream, чтобы извлечь значения полей из строки и создать новый объект Car.
+	//static, чтобы его можно было вызвать без создания экземпляра класса Car.
 
 private:
 	int m_key;
@@ -44,18 +47,3 @@ private:
 	std::string m_nameOwner;
 	bool m_theftInfo;
 };
-
-//struct Car {
-//	int key;
-//	std::string surnameOwner;
-//	std::string& nameOwner;
-//	std::string& numberCar;
-//	std::string& brandCar;
-//	bool theftInfo;
-//
-//	Car(int m_key, const std::string& m_surnameOwner, const std::string& m_nameOwner, const std::string& m_numberCar,
-//		const std::string& m_brandCar, bool m_theftInfo)
-//		: key(m_key), surnameOwner(m_surnameOwner), nameOwner(m_nameOwner), numberCar(m_numberCar), brandCar(m_brandCar), theftInfo(m_theftInfo) {}
-//
-//	Car() : key(0), theftInfo(false) {}
-//};
