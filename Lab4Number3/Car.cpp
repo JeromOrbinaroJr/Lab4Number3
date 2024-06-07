@@ -28,7 +28,8 @@ void Car::setTheftInfo(bool theftInfo) { m_theftInfo = theftInfo; }
 
 // Serialization and Deserialization
 std::string Car::serialize() const {
-    std::ostringstream oss; // чтобы собрать значени€ полей объекта в одну строку, раздел€€ их пробелами.
+    //std::string(m_key).append(" ").append()
+    std::ostringstream oss;
     oss << m_key << " " << m_numberCar << " " << m_surnameOwner << " " << m_nameOwner << " " << m_brandCar << " " << m_theftInfo;
     return oss.str();
 }

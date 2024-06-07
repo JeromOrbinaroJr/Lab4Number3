@@ -11,7 +11,7 @@ int main() {
         carSystem.saveToBinaryFile("DOTFile.bin");
         carSystem.loadFromBinaryFile("DOTFile.bin");
 
-        carSystem.markCarAsTheft("ABC123");
+        carSystem.markCarAsTheftBinary("ABC123");
         carSystem.removeCarByNumberCar("XYZ789");
 
         std::cout << "List of Cars: " << std::endl;

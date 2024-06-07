@@ -38,6 +38,6 @@ private:
 	std::string m_numberCar;
 	std::string m_surnameOwner;
 	std::string m_nameOwner;
-	std::string m_brandCar;
+	std::string m_brandCar;//enum
 	bool m_theftInfo;
 };

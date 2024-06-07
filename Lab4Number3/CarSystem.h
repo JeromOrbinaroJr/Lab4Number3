@@ -18,6 +18,7 @@ public:
 
 	//Установка факта угона с заданным номером
 	void markCarAsTheft(const std::string& numberCar);
+	void markCarAsTheftBinary(const std::string& numberCar);
 
 private:
 	std::string m_fileName;

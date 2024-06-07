@@ -1,7 +1,7 @@
 #include "CarSystem.h"
 
 bool isFileEmpty(const std::string& filename) {
-    std::ifstream file(filename, std::ios::binary); //на счёт указания для txt и bin файлов?
+    std::ifstream file(filename, std::ios::binary);
     return file.peek() == std::ifstream::traits_type::eof(); // проверка, если peek возвращает EOF, то файл пуст.
 }
 
@@ -76,7 +76,7 @@ void CarSystem::displayAllCars() {
     }
 }
 
-void CarSystem::markCarAsTheft(const std::string& numberCar) {
+void CarSystem::markCarAsTheft(const std::string& numberCar) {//workWithBinary
     for (Car& car : m_cars) {
         if (car.getNumberCar() == numberCar) {
             car.setTheftInfo(true);
@@ -85,6 +85,49 @@ void CarSystem::markCarAsTheft(const std::string& numberCar) {
     }
     throw std::runtime_error("Car with number " + numberCar + " not found.");
 }
+
+//////////////////////////////////
+void CarSystem::markCarAsTheftBinary(const std::string& numberCar) {
+    std::fstream file("DOTFile.bin", std::ios::in | std::ios::out | std::ios::binary);
+
+    if (!file.is_open()) { throw std::runtime_error("The file cannot be opened, or does not exist."); }
+
+    std::vector<Car> cars;
+    while (file) {
+        size_t size;
+        file.read(reinterpret_cast<char*>(&size), sizeof(size));
+        if (file.eof()) break;
+
+        std::string serializedCar(size, ' ');
+        file.read(&serializedCar[0], size);
+        cars.push_back(Car::deserialize(serializedCar));
+    }
+    file.close();
+
+    bool found = false;
+    for (Car& car : cars) {
+        if (car.getNumberCar() == numberCar) {
+            car.setTheftInfo(true);
+            found = true;
+            break;
+        }
+    }
+    if (!found) { throw std::runtime_error("Car with number " + numberCar + " not found."); }
+
+    std::ofstream outFile("DOTFile.bin", std::ios::binary);
+    if (!outFile.is_open()) { throw std::runtime_error("The file cannot be opened for writing."); }
+    for (const Car& car : cars) {
+        std::string serializedCar = car.serialize();
+        size_t size = serializedCar.size();
+        outFile.write(reinterpret_cast<const char*>(&size), sizeof(size));
+        outFile.write(serializedCar.c_str(), size);
+    }
+    outFile.close();
+
+    m_cars = cars;
+}
+
+///////////////////////////////////
 
 void CarSystem::displayTheftCars() {
     for (const Car& car : m_cars) {
